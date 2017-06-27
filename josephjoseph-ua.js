@@ -7,7 +7,6 @@ osmosis
     .get('http://josephjoseph-ua.com/p/doska-razdelochnaya-joseph-joseph-chop2pot-bambuk-bolshaya-60112-43761')
     .find('.layout-items')
     .set({
-        'vendor-code': '.product-code span',
         'price': '.special-price'
     })
     .log(console.log)

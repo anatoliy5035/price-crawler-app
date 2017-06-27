@@ -6,7 +6,6 @@ osmosis
     .get('http://josephjoseph.com.ua/gibkie-doski/22-razdelochnaya-doska-chop2pot-plus-white.html')
     .find('.pb-center-column')
     .set({
-        'vendor-code': 'span[itemprop=sku]',
         'price': 'span[itemprop=price]'
     })
     .log(console.log)

@@ -7,19 +7,11 @@ osmosis
     .get('https://hmstore.com.ua/buy/razdelochnaya-doska-joseph-joseph-chop2pot-bamboo-large-60112')
     .find('.product-block')
     .set({
-        'vendor-code': 'h2[itemprop=sku]',
         'price': 'div[itemprop=price]'
     })
     .log(console.log)
     .data(function(data) {
-        let regExp = new RegExp('([0-9]+)', 'g');
-        filteredVendorCode = data['vendor-code'].split(regExp);
-        let newObj = {
-            'price': data['price'],
-            'vendor-code': filteredVendorCode[1]
-        };
-
-        savedData.push(newObj);
+        savedData.push(data);
     })
     .done(function() {
         fs.writeFile('data-hmstore.json', JSON.stringify( savedData, null, 4), function(err) {
