@@ -1,0 +1,32 @@
+[{
+  "id": "1",
+  "name": "hmstore",
+  "divBlock": ".page-column",
+  "priceElement": "div[itemprop=price]",
+  "url": "https://hmstore.com.ua/buy/razdelochnaya-doska-joseph-joseph-chop2pot-bamboo-large-60112"
+},
+
+  {
+    "id": "2",
+    "name": "europosud",
+    "divBlock": ".content_right",
+    "priceElement": "u[itemprop=price]",
+    "url": "https://europosud.ua/product/12073296"
+  },
+
+  {
+    "id": "3",
+    "name": "josephjoseph-ua",
+    "divBlock": ".layout-items",
+    "priceElement": ".special-price",
+    "url": "http://josephjoseph-ua.com/p/doska-razdelochnaya-joseph-joseph-chop2pot-bambuk-bolshaya-60112-43761"
+  },
+
+  {
+    "id": "4",
+    "name": "josephjoseph",
+    "divBlock": ".pb-center-column",
+    "priceElement": "span[itemprop=price]",
+    "url": "http://josephjoseph.com.ua/gibkie-doski/22-razdelochnaya-doska-chop2pot-plus-white.html"
+  }
+]
