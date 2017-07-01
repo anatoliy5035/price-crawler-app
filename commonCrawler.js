@@ -1,7 +1,6 @@
 const fs = require('fs');
 const osmosis = require('osmosis');
 
-
 function commonCrawler(cartUrl, name, divBlock, priceElement) {
     osmosis
         .get(cartUrl)
