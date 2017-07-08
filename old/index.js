@@ -1,5 +1,5 @@
-const commonCrawler = require('./commonCrawler');
-const dataUrl = require('./cart-url/cart-data.json');
+const commonCrawler = require('../server/commonCrawler');
+const dataUrl = require('../server/cart-url/cart-data.json');
 
 function getCrawlerById(id) {
     let idLoc = id.toString();
