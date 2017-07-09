@@ -1,11 +1,13 @@
 <template>
 	<div id="app">
 		<crawler-input></crawler-input>
+		<results></results>
 	</div>
 </template>
 
 <script>
 import CrawlerInput from './CrawlerInput.vue';
+import Results from './Results.vue';
 export default {
 	name: 'app',
 	data () {
@@ -20,7 +22,8 @@ export default {
 
 	},
 	components: {
-        CrawlerInput
+        CrawlerInput,
+		Results
 	}
 }
 </script>

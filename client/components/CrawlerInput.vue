@@ -6,49 +6,30 @@
                 <input type="text"
                        placeholder="product url:"
                        name="url"
-                       class="form-control url-input" id="url"
                        v-validate="'required'"
+                       class="form-control url-input" id="url"
                        v-model="urlData"
                        :class="{'input': true, 'is-danger': errors.has('url') }">
+
                 <button type="submit" id="submitInputButton" class="btn btn-primary">GET</button>
             </form>
         </div>
-        <ul class="list-group">
-            <li class="list-group-item" v-for="response in serverText">{{response.domain}}<span class="badge">{{response.price}}</span></li>
-        </ul>
     </div>
 </template>
-
 
 <script>
 
 export default {
     name: 'CrawlerInput',
-//    components: {
-////        routes
-//    },
     data() {
         return {
-            urlData: '',
-            serverText: []
+            urlData: ''
         }
     },
-//    ready() {
-////            this.getBook()
-//    },
     methods: {
-            getDomainName() {
-                this.$validator.validateAll().then(result => {
-                    if (result) {
-                        this.$http.post('/getPriceFromUrl', {url: this.urlData})
-                            .then(res => {
-                                this.serverText.push(res.body);
-                            });
-                        return;
-                    }
-               return;
-                });
-            }
+        getDomainName() {
+            this.$store.dispatch('getDomainName', this, this.urlData)
+        }
     }
 }
 </script>
@@ -56,6 +37,7 @@ export default {
 <style scoped>
     .is-danger {
         border-color: #c91b1b;
+        box-shadow: inset 0 1px 1px rgba(201, 27, 27, 0.33), 0 0 8px rgba(201, 27, 27, 0.05);
     }
 
     a {
