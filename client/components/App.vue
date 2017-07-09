@@ -1,6 +1,5 @@
 <template>
 	<div id="app">
-		<!--<h1>{{ msg }}</h1>-->
 		<crawler-input></crawler-input>
 	</div>
 </template>

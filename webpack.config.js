@@ -5,7 +5,7 @@ const VENDOR_LIBS = ['vue'];
 
 module.exports = {
 	entry: {
-		bundle: './client/src/index.js',
+		bundle: './client/index.js',
 		vendor: VENDOR_LIBS
 	},
 	output: {
@@ -30,7 +30,7 @@ module.exports = {
 			name: 'vendor'
 		}),
 		new HtmlWebpackPlugin({
-			template: './client/src/index.html'
+			template: './client/index.html'
 		}),
 		new webpack.DefinePlugin({
 			'process.env': {

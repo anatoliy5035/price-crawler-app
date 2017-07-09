@@ -7,10 +7,11 @@
             <button type="submit" id="submitInputButton" class="btn btn-primary" v-on:click="getDomainName()">GET</button>
         </div>
         <ul class="list-group">
-            <li class="list-group-item" v-for="text in serverText">{{text.text}}<span class="badge">{{text.domain}}</span></li>
+            <li class="list-group-item" v-for="response in serverText">{{response.domain}}<span class="badge">{{response.price}}</span></li>
         </ul>
     </div>
 </template>
+
 
 <script>
 
@@ -21,7 +22,7 @@ export default {
 //    },
     data() {
         return {
-            urlData: 'dadada',
+            urlData: '',
             serverText: []
         }
     },
@@ -30,11 +31,11 @@ export default {
 //    },
     methods: {
             getDomainName() {
-                this.$http.post('/getPriceFromUrl')
-                    .then(res =>{
-//                            console.log(res.body.text);
+                this.$http.post('/getPriceFromUrl', {url: this.urlData})
+                    .then(res => {
                             this.serverText.push(res.body);
-                    })}
+                    })
+            }
     }
 }
 </script>
