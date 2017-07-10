@@ -19,16 +19,23 @@ Validator.updateDictionary(dict);
 
 export default new Vuex.Store({
     state: {
-        serverText: []
+        serverText: [],
+        oldInputValue: ''
     },
     mutations: {
         pushText(state, res) {
             state.serverText.push(res);
+        },
+        setOldInput(state, val) {
+            state.oldInputValue = val;
         }
     },
     getters: {
-        serverText (state) {
+        serverText(state) {
             return state.serverText
+        },
+        getOldInputValue(state) {
+            return state.oldInputValue
         }
     },
     actions: {
@@ -36,11 +43,12 @@ export default new Vuex.Store({
            const url = '/getPriceFromUrl';
             component.$validator.validateAll(component.scope).then(result => {
                    if (result) {
-                   component.$http.post(url, {url: component.urlData})
-                       .then(res => {
-                           context.commit('pushText', res.body);
-                       });
-                   return;
+                       context.commit('setOldInput', component.urlData);
+                       component.$http.post(url, {url: component.urlData})
+                           .then(res => {
+                               context.commit('pushText', res.body);
+                           });
+                       return;
                }
             return;
            });

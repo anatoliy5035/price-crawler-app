@@ -10,11 +10,16 @@
                        class="form-control url-input" id="urlAddress"
                        v-model="urlData"
                        :class="{'input': true, 'is-danger': errors.has('urlForm.urlAddress') }">
-                <button type="submit" id="submitInputButton" class="btn btn-primary">GET</button>
+                <button
+                        type="submit" id="submitInputButton" class="btn btn-primary">GET
+                </button>
                 <div v-show="errors.has('urlForm.url')" class="help">Please enter valid url</div>
             </form>
             <div v-show="errors.has('urlForm.urlAddress')" class="alert alert-danger">
                 {{ errors.first('urlForm.urlAddress') }}
+            </div>
+            <div v-show="this.showTheSameError" class="alert alert-danger">
+                Please enter url that doesn't match previous
             </div>
         </div>
     </div>
@@ -26,13 +31,28 @@ export default {
     name: 'CrawlerInput',
     data() {
         return {
-            urlData: ''
+            urlData: '',
+            showTheSameError: false
         }
     },
     methods: {
         getDomainName(scope) {
-            this.scope = scope;
-            this.$store.dispatch('getDomainName', this)
+            if (!this.theSameValue) {
+                this.scope = scope;
+                this.showTheSameError = false;
+                this.$store.dispatch('getDomainName', this);
+            } else {
+                this.showTheSameError = true;
+            }
+        }
+    },
+    computed: {
+        oldInputValue() {
+            return this.$store.getters.getOldInputValue;
+        },
+
+        theSameValue() {
+            return this.oldInputValue === this.urlData ? true : false;
         }
     }
 }
