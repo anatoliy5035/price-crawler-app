@@ -7,6 +7,7 @@ import store from './store/index';
 Vue.use(vueResource);
 Vue.use(VeeValidate);
 
+
 Vue.http.interceptors.push((request, next) => {
 	request.headers.set('x-access-token', localStorage.getItem('session'));
 	request.headers.set('Accept', 'application/json');

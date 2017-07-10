@@ -1,7 +1,21 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { Validator } from 'vee-validate';
 
 Vue.use(Vuex);
+
+const dict = {
+    en: {
+        custom: {
+            urlAddress: {
+                required: 'Please enter url in input',
+                url: 'Please enter a valid url in input'
+            }
+        }
+    }
+};
+
+Validator.updateDictionary(dict);
 
 export default new Vuex.Store({
     state: {
@@ -20,7 +34,7 @@ export default new Vuex.Store({
     actions: {
         getDomainName(context, component) {
            const url = '/getPriceFromUrl';
-            component.$validator.validateAll().then(result => {
+            component.$validator.validateAll(component.scope).then(result => {
                    if (result) {
                    component.$http.post(url, {url: component.urlData})
                        .then(res => {
