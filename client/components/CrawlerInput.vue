@@ -42,7 +42,9 @@ export default {
                 this.showTheSameError = false;
                 this.$store.dispatch('getDomainName', this);
             } else {
-                this.showTheSameError = true;
+                if (this.oldInputValue.length !==0) {
+                    this.showTheSameError = true;
+                }
             }
         }
     },
