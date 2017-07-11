@@ -1,13 +1,19 @@
 <template>
 	<div id="app">
 		<crawler-input></crawler-input>
-		<results></results>
+		<div class="container">
+			<div class="row">
+				<cart-info></cart-info>
+				<results></results>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
 import CrawlerInput from './CrawlerInput.vue';
 import Results from './Results.vue';
+import CartInfo from './CartInfo.vue';
 export default {
 	name: 'app',
 	data () {
@@ -23,6 +29,7 @@ export default {
 	},
 	components: {
         CrawlerInput,
+        CartInfo,
 		Results
 	}
 }

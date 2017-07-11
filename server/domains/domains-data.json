@@ -1,0 +1,40 @@
+[{
+    "id": "1",
+    "name": "hmstore",
+    "productName": "h1[itemprop=name]",
+    "img": ".small @src",
+    "divBlock": ".product-block",
+    "priceElement": "div[itemprop=price]",
+    "domain": "hmstore.com.ua"
+  },
+
+  {
+    "id": "2",
+    "name": "europosud",
+    "productName": "i[itemprop=name]",
+    "img": ".img_big @src",
+    "divBlock": ".content_right",
+    "priceElement": "u[itemprop=price]",
+    "domain": "europosud.ua"
+  },
+
+  {
+    "id": "3",
+    "name": "josephjoseph-ua",
+    "productName": ".name-product",
+    "img": ".ms-slide a @href",
+    "divBlock": ".product-box",
+    "priceElement": ".special-price",
+    "domain": "josephjoseph-ua.com"
+  },
+
+  {
+    "id": "4",
+    "name": "josephjoseph",
+    "productName": "h1[itemprop=name]",
+    "img": "#bigpic @src",
+    "divBlock": ".primary_block",
+    "priceElement": "span[itemprop=price]",
+    "domain": "josephjoseph.com.ua"
+  }
+]

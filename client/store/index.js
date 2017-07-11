@@ -23,7 +23,7 @@ export default new Vuex.Store({
         oldInputValue: ''
     },
     mutations: {
-        pushText(state, res) {
+        pushServerText(state, res) {
             state.serverText.push(res);
         },
         setOldInput(state, val) {
@@ -46,7 +46,7 @@ export default new Vuex.Store({
                        context.commit('setOldInput', component.urlData);
                        component.$http.post(url, {url: component.urlData})
                            .then(res => {
-                               context.commit('pushText', res.body);
+                               context.commit('pushServerText', res.body);
                            });
                        return;
                }
