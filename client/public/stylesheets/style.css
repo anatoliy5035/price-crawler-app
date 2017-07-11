@@ -36,3 +36,6 @@ li {
   margin: 0 10px;
 }
 
+.list-group-item {
+  margin: 0;
+}

@@ -2,7 +2,7 @@
     "id": "1",
     "name": "hmstore",
     "productName": "h1[itemprop=name]",
-    "img": ".small @src",
+    "img": ".gallery-control .active img @src",
     "divBlock": ".product-block",
     "priceElement": "div[itemprop=price]",
     "domain": "hmstore.com.ua"
