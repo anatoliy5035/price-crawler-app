@@ -1,4 +1,4 @@
-function getDomainFromUrl(cartUrl) {
+module.exports = function (cartUrl) {
     let httpReg = new RegExp("^(http|https)://", "i");
     let domainReg = new RegExp("^([^/]+)", "i");
     let urlFiltered;
@@ -11,6 +11,4 @@ function getDomainFromUrl(cartUrl) {
     }
     domain =  cartUrl.split(domainReg)[1];
     return domain;
-}
-
-module.exports = getDomainFromUrl;
+};

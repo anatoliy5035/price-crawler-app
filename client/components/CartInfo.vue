@@ -23,7 +23,10 @@
         },
         computed: {
             cartInfoFromServer() {
-                return this.$store.getters.serverText[this.$store.getters.serverText.length - 1];
+                if(this.$store.getters.serverText.length) {
+                    return this.$store.getters.serverText[this.$store.getters.serverText.length - 1];
+                }
+                return [];
             }
         },
         created: function () {

@@ -20,11 +20,16 @@ Validator.updateDictionary(dict);
 export default new Vuex.Store({
     state: {
         serverText: [],
-        oldInputValue: ''
+        oldInputValue: '',
+        serverErrorText: ''
     },
     mutations: {
         pushServerText(state, res) {
-            state.serverText.push(res);
+            if (res.status === 200) {
+                state.serverText.push(res.body);
+            } else {
+                state.serverErrorText = res.bodyText;
+            }
         },
         setOldInput(state, val) {
             state.oldInputValue = val;
@@ -36,6 +41,9 @@ export default new Vuex.Store({
         },
         getOldInputValue(state) {
             return state.oldInputValue
+        },
+        serverErrorText(state) {
+            return state.serverErrorText
         }
     },
     actions: {
@@ -46,7 +54,10 @@ export default new Vuex.Store({
                        context.commit('setOldInput', component.urlData);
                        component.$http.post(url, {url: component.urlData})
                            .then(res => {
-                               context.commit('pushServerText', res.body);
+                               context.commit('pushServerText', res);
+                           })
+                           .catch(errorResponse => {
+                               context.commit('pushServerText', errorResponse);
                            });
                        return;
                }

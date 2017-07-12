@@ -1,28 +1,29 @@
 const fs = require('fs');
 const osmosis = require('osmosis');
-const domains = require('./domains/domains-data.json');
-
-function filterPrice(price) {
-    const removeWhiteSpaces = price.replace(/\s/g, '')
-    const getOnlyDigits = removeWhiteSpaces.match(/\d+/);
-    return getOnlyDigits[0] + ' UAH';
-}
+const filterPrice = require('./helpers/filterPrice');
 
 module.exports = {
-    crawlUrl: function (cartUrl, productName, img, name, divBlock, priceElement, res, domainUrl) {
-        console.log(img)
+    crawlUrl: function (domainData, cartUrl, domainUrl, res) {
         osmosis
             .get(cartUrl)
-            .find(divBlock)
+            .find(domainData.divBlock)
             .set({
-                'price': priceElement,
-                'img': img,
-                'productName': productName,
+                'price': domainData.priceElement,
+                'img': domainData.img,
+                'productName': domainData.productName,
             })
-            .log(console.log)
+            .error(function (msg) {
+                console.error(msg);
+                res.json({
+                    domain: domainUrl,
+                    price: 'price not found',
+                    name: 'Product not found on this page',
+                    img: './public/images/error-icon.jpg'
+                });
+                return;
+            })
             .data(function(data) {
                 let img;
-
                 switch (domainUrl) {
                     case 'josephjoseph-ua.com':
                         img = 'http://josephjoseph-ua.com' + data.img;
@@ -34,16 +35,16 @@ module.exports = {
                         img = data.img;
                 }
 
-                res.json({
-                    domain: domainUrl,
-                    price: filterPrice(data.price),
-                    name: data.productName,
-                    img: img
-                });
-            })
-    },
-
-    getDomainData: function (domain) {
-        return domains.filter(x => x.domain === domain);
+                if (data) {
+                    res.json({
+                        domain: domainUrl,
+                        price: filterPrice(data.price),
+                        name: data.productName,
+                        img: img
+                    })
+                } else {
+                    return;
+                }
+            });
     }
 }

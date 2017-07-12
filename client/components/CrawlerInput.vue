@@ -18,8 +18,8 @@
             <div v-show="errors.has('urlForm.urlAddress')" class="alert alert-danger">
                 {{ errors.first('urlForm.urlAddress') }}
             </div>
-            <div v-show="this.showTheSameError" class="alert alert-danger">
-                Please enter url that doesn't match previous
+            <div  class="alert alert-danger">
+                {{this.serverErrorText}}
             </div>
         </div>
     </div>
@@ -32,18 +32,22 @@ export default {
     data() {
         return {
             urlData: '',
-            showTheSameError: false
+            error: false,
+            errorText: ''
+//            theSameUrlErrorText: 'Please enter url that doesnt match previous',
+//            serverErrorText: 'Kakss'
         }
     },
     methods: {
         getDomainName(scope) {
             if (!this.theSameValue) {
                 this.scope = scope;
-                this.showTheSameError = false;
+                this.error = false;
                 this.$store.dispatch('getDomainName', this);
             } else {
                 if (this.oldInputValue.length !==0) {
-                    this.showTheSameError = true;
+                    this.error = true;
+                    this.errorText = this.theSameUrlErrorText;
                 }
             }
         }
@@ -55,6 +59,14 @@ export default {
 
         theSameValue() {
             return this.oldInputValue === this.urlData ? true : false;
+        },
+
+        theSameUrlErrorText() {
+            return this.$store.getters.theSameUrlErrorText;
+        },
+
+        serverErrorText() {
+            return this.$store.getters.serverErrorText;
         }
     }
 }
