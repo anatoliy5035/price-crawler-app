@@ -21,29 +21,42 @@ export default new Vuex.Store({
     state: {
         serverText: [],
         oldInputValue: '',
-        serverErrorText: ''
+        preloader: false,
+        errorTexts: {
+            theSameText: 'Please enter url that doesnt match previous',
+            serverResponseError: 'Please enter url that doesnt match previous',
+            validUrl: 'Please enter url that doesnt match previous'
+        }
     },
     mutations: {
         pushServerText(state, res) {
             if (res.status === 200) {
-                state.serverText.push(res.body);
+                state.errorTexts.serverResponseError = res.body;
             } else {
                 state.serverErrorText = res.bodyText;
             }
         },
+
         setOldInput(state, val) {
             state.oldInputValue = val;
+        },
+
+        setPreload(state, val) {
+            state.preloader = val;
         }
     },
     getters: {
         serverText(state) {
-            return state.serverText
+            return state.serverText;
         },
         getOldInputValue(state) {
-            return state.oldInputValue
+            return state.oldInputValue;
         },
         serverErrorText(state) {
-            return state.serverErrorText
+            return state.serverErrorText;
+        },
+        getPreload(state) {
+            return state.preloader;
         }
     },
     actions: {
@@ -52,12 +65,15 @@ export default new Vuex.Store({
             component.$validator.validateAll(component.scope).then(result => {
                    if (result) {
                        context.commit('setOldInput', component.urlData);
+                       context.commit('setPreload', true);
                        component.$http.post(url, {url: component.urlData})
                            .then(res => {
                                context.commit('pushServerText', res);
+                               context.commit('setPreload', false);
                            })
                            .catch(errorResponse => {
                                context.commit('pushServerText', errorResponse);
+                               context.commit('setPreload', false);
                            });
                        return;
                }
