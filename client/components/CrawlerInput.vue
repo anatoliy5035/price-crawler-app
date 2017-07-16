@@ -6,7 +6,7 @@
                 <input type="text"
                        placeholder="product url:"
                        name="urlAddress"
-                       v-validate="'required|url'"
+                       v-validate="'required|url|theSameValue'"
                        class="form-control url-input" id="urlAddress"
                        v-model="urlData"
                        :class="{'input': true, 'is-danger': errors.has('urlForm.urlAddress') }">
@@ -24,12 +24,11 @@
                         </div>
                 </button>
             </form>
-            <!--<div v-show="errors.has('urlForm.url')" class="help">Please enter valid url</div>-->
-            <!--<div v-show="errors.has('urlForm.urlAddress')" class="alert alert-danger">-->
-                <!--{{ errors.first('urlForm.urlAddress') }}-->
-            <!--</div>-->
-            <div v-show="this.error" class="alert alert-danger">
-                {{this.errorText}}
+            <div v-show="errors.has('urlForm.urlAddress')" class="alert alert-danger">
+               {{ errors.first('urlForm.urlAddress') }}
+            </div>
+            <div v-show="this.serverErrorText" class="alert alert-danger">
+                {{this.serverErrorText}}
             </div>
         </div>
     </div>
@@ -37,30 +36,19 @@
 
 <script>
 
+import { Validator } from 'vee-validate';
+
 export default {
     name: 'CrawlerInput',
     data() {
         return {
-            urlData: '',
-            error: false
-//            theSameUrlErrorText:'',
-//            serverErrorTextData: ''
+            urlData: ''
         }
     },
     methods: {
         getDomainName(scope) {
             this.scope = scope;
             this.$store.dispatch('getDomainName', this);
-//            if (!this.theSameValue) {
-//                this.scope = scope;
-//                this.error = false;
-//                this.$store.dispatch('getDomainName', this);
-//            } else {
-//                if (this.oldInputValue.length !==0) {
-//                    this.error = true;
-//                    this.errorText = this.theSameUrlErrorText;
-//                }
-//            }
         }
     },
     computed: {
@@ -68,21 +56,25 @@ export default {
             return this.$store.getters.getOldInputValue;
         },
 
-        theSameValue() {
-            return this.oldInputValue === this.urlData ? true : false;
-        },
-
-        theSameUrlErrorText() {
-            return this.$store.getters.theSameUrlErrorText;
-        },
-
         serverErrorText() {
-            return this.serverErrorTextData === this.$store.getters.serverErrorText ? this.$store.getters.serverErrorText : false;
+            return this.$store.getters.getServerErrorText;
         },
 
         getPreload() {
             return this.$store.getters.getPreload;
         }
+    },
+
+    created() {
+        Validator.extend('theSameValue', {
+            getMessage: field => {
+                return 'Please enter url that doesnt match previous';
+            },
+
+            validate: value => {
+                return this.oldInputValue !== value;
+            }
+        });
     }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="col-sm-2 col-md-2">
-        <div class="thumbnail" v-show="this.cartInfoFromServer !==0">
+        <div class="thumbnail" v-if="this.cartInfoFromServer.domain">
             <img class="product-img" v-bind:src="this.cartInfoFromServer.img" alt="">
             <div class="caption">
                 <h3>{{this.cartInfoFromServer.name}}</h3>
@@ -23,14 +23,14 @@
         },
         computed: {
             cartInfoFromServer() {
-                if(this.$store.getters.serverText.length) {
-                    return this.$store.getters.serverText[this.$store.getters.serverText.length - 1];
+                if (this.$store.getters.getServerText) {
+                    return this.$store.getters.getServerText;
                 }
-                return [];
+                return false;
             }
         },
         created: function () {
-            this.cartInfoFromServer
+            this.cartInfoFromServer()
         }
     }
 </script>

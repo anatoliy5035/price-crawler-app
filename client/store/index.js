@@ -19,19 +19,16 @@ Validator.updateDictionary(dict);
 
 export default new Vuex.Store({
     state: {
-        serverText: [],
         oldInputValue: '',
         preloader: false,
-        errorTexts: {
-            theSameText: 'Please enter url that doesnt match previous',
-            serverResponseError: 'Please enter url that doesnt match previous',
-            validUrl: 'Please enter url that doesnt match previous'
-        }
+        responseData: {},
+        serverErrorText: ''
     },
     mutations: {
         pushServerText(state, res) {
             if (res.status === 200) {
-                state.errorTexts.serverResponseError = res.body;
+                state.responseData = res.body;
+                state.serverErrorText = false;
             } else {
                 state.serverErrorText = res.bodyText;
             }
@@ -46,13 +43,13 @@ export default new Vuex.Store({
         }
     },
     getters: {
-        serverText(state) {
-            return state.serverText;
+        getServerText(state) {
+            return state.responseData;
         },
         getOldInputValue(state) {
             return state.oldInputValue;
         },
-        serverErrorText(state) {
+        getServerErrorText(state) {
             return state.serverErrorText;
         },
         getPreload(state) {
@@ -75,9 +72,7 @@ export default new Vuex.Store({
                                context.commit('pushServerText', errorResponse);
                                context.commit('setPreload', false);
                            });
-                       return;
                }
-            return;
            });
         }
     }

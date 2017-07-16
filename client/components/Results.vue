@@ -1,7 +1,7 @@
 <template>
     <div class="col-md-10">
         <ul>
-            <li v-for="result in cartInfoFromServer" class="list-group-item">{{result.domain}}<span class="badge">{{result.price}}</span></li>
+            <li v-show="this.cartInfoFromServer.domain" class="list-group-item">{{this.cartInfoFromServer.domain}}<span class="badge">{{this.cartInfoFromServer.price}}</span></li>
         </ul>
     </div>
 </template>
@@ -10,7 +10,7 @@
     export default {
         computed: {
             cartInfoFromServer() {
-                return this.$store.getters.serverText;
+                return this.$store.getters.getServerText;
             }
         }
     }

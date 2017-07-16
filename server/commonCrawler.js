@@ -42,8 +42,6 @@ module.exports = {
                         name: data.productName,
                         img: img
                     })
-                } else {
-                    return;
                 }
             });
     }
