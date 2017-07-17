@@ -13,7 +13,6 @@ router.post('/getPriceFromUrl', function (req, res, next) {
     let domainUrl = getDomainFromUrl(req.body.url);
     let domainData = getDomainObject(domainUrl).length ? getDomainObject(domainUrl)[0] : false;
     domainData !== false ? crawlUrl(domainData, cartUrl, domainUrl, res): sendError(res);
-
 });
 
 module.exports = router;

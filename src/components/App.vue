@@ -35,4 +35,4 @@ export default {
 }
 </script>
 
-<style src="../public/stylesheets/style.css"></style>
+<style src="../assets/css/style.css"></style>
