@@ -30,7 +30,7 @@
             }
         },
         created: function () {
-            this.cartInfoFromServer()
+            this.cartInfoFromServer
         }
     }
 </script>
