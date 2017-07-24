@@ -5,7 +5,7 @@
   "author": "Anatoliy <a.bygyb@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js nodemon server/app.js",
+    "dev": "nodemon server/app.js node build/dev-server.js ",
     "start": "node build/dev-server.js",
     "build": "node build/build.js"
   },
@@ -21,6 +21,7 @@
     "vee-validate": "^2.0.0-rc.6",
     "vue": "^2.3.3",
     "vue-resource": "^1.1.1",
+    "vue-router": "^2.7.0",
     "vuex": "^2.3.1"
   },
   "devDependencies": {

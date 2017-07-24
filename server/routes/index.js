@@ -9,10 +9,21 @@ function sendError(response) {
 }
 
 router.post('/getPriceFromUrl', function (req, res, next) {
-    let cartUrl = req.body.url;
-    let domainUrl = getDomainFromUrl(req.body.url);
-    let domainData = getDomainObject(domainUrl).length ? getDomainObject(domainUrl)[0] : false;
-    domainData !== false ? crawlUrl(domainData, cartUrl, domainUrl, res): sendError(res);
+  let cartUrl = req.body.url;
+  let domainUrl = getDomainFromUrl(req.body.url);
+  let domainData = getDomainObject(domainUrl).length ? getDomainObject(domainUrl)[0] : false;
+  domainData !== false ? crawlUrl(domainData, cartUrl, domainUrl, res): sendError(res);
+});
+
+router.post('/getPriceFromUrl', function (req, res, next) {
+  let cartUrl = req.body.url;
+  let domainUrl = getDomainFromUrl(req.body.url);
+  let domainData = getDomainObject(domainUrl).length ? getDomainObject(domainUrl)[0] : false;
+  domainData !== false ? crawlUrl(domainData, cartUrl, domainUrl, res): sendError(res);
+});
+
+router.get('/', function (req, res) {
+  res.redirect('/login');
 });
 
 module.exports = router;

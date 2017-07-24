@@ -27,15 +27,15 @@
             <div v-show="errors.has('urlForm.urlAddress')" class="alert alert-danger">
                {{ errors.first('urlForm.urlAddress') }}
             </div>
-            <div v-show="this.serverErrorText" class="alert alert-danger">
-                {{this.serverErrorText}}
+            <div v-show="this.getServerErrorText" class="alert alert-danger">
+                {{this.getServerErrorText}}
             </div>
         </div>
     </div>
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex';
 import { Validator } from 'vee-validate';
 
 export default {
@@ -51,18 +51,12 @@ export default {
             this.$store.dispatch('getDomainName', this);
         }
     },
+
     computed: {
-        oldInputValue() {
-            return this.$store.getters.getOldInputValue;
-        },
-
-        serverErrorText() {
-            return this.$store.getters.getServerErrorText;
-        },
-
-        getPreload() {
-            return this.$store.getters.getPreload;
-        }
+      ...mapGetters([
+        'getServerErrorText',
+        'getPreload'
+      ])
     },
 
     created() {

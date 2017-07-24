@@ -58,7 +58,7 @@ export default new Vuex.Store({
     },
     actions: {
         getDomainName(context, component) {
-           const url = '/getPriceFromUrl';
+            const url = '/getPriceFromUrl';
             component.$validator.validateAll(component.scope).then(result => {
                    if (result) {
                        context.commit('setOldInput', component.urlData);
@@ -74,6 +74,17 @@ export default new Vuex.Store({
                            });
                }
            });
+        },
+
+        verifyEmail(context, component) {
+          const url = '/verifyEmail';
+          component.$http.post(url, {email: component.emailData})
+            .then(res => {
+              console.log(res);
+            })
+            .catch(errorResponse => {
+
+            });
         }
     }
 })
