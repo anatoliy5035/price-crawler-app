@@ -1,0 +1,13 @@
+{
+  "mainUrl": "http://vse-sto.com.ua/",
+  "DBUrl": "mongodb://localhost:27017/scraped-data",
+  "version": "0.0.1",
+  "mailerData":
+    {
+      "api_key": "key-fb6302864af15edc5dddc23ee5df70d8",
+      "domain": "sandbox900bc0b177d049808c81564068260b09.mailgun.org",
+      "from_who": "service@haha.com",
+      "subject": "PriceCrawler werification"
+    }
+
+}

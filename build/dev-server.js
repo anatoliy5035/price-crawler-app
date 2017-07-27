@@ -13,6 +13,7 @@ var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 var app = express()
 
+const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const router = require(config.dev.serverAppPath + '/routes');
@@ -93,7 +94,8 @@ devMiddleware.waitUntilValid(() => {
   _resolve()
 })
 
-var server = app.listen(port)
+var server = app.listen(port);
+mongoose.connect('localhost:27017/priceCrawlerApp');
 
 module.exports = {
   ready: readyPromise,

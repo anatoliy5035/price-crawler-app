@@ -83,7 +83,7 @@ export default new Vuex.Store({
               console.log(res);
             })
             .catch(errorResponse => {
-
+              context.commit('pushServerText', errorResponse);
             });
         }
     }
