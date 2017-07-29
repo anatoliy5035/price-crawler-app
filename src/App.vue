@@ -2,10 +2,13 @@
 	<div id="app">
     <ul>
       <li>
-        <router-link to="/home">Home</router-link>
+        <router-link to="/home" v-if="this.getAuthorized">Home</router-link>
       </li>
       <li>
-        <router-link to="/login">Login</router-link>
+        <router-link to="/login">Sign in</router-link>
+      </li>
+      <li>
+        <router-link to="/register">Sign up</router-link>
       </li>
     </ul>
     <router-view></router-view>
@@ -13,17 +16,20 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex';
 export default {
 	name: 'app',
 	data () {
 		return {
-			msg: 'Welcome to Your Vue.js App',
+
 		}
 	},
-	methods: {
 
-	},
+  computed: {
+    ...mapGetters([
+      'getAuthorized'
+    ])
+  },
 	components: {
 
 	}

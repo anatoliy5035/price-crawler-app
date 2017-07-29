@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import vueResource from 'vue-resource';
 import App from './App.vue';
-import Login from './Login.vue';
+import Register from './Register.vue';
 import Home from './Home.vue';
+import Login from './Login.vue';
 import VueRouter from 'vue-router';
 import VeeValidate from 'vee-validate';
 import store from './store/index';
@@ -23,6 +24,7 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     { path: '/home', component: Home },
+    { path: '/register', component: Register },
     { path: '/login', component: Login }
   ]
 });

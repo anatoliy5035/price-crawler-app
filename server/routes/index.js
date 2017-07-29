@@ -54,7 +54,7 @@ router.post('/verifyEmail', function (req, res) {
 router.get("/confirm/:token", function (req, res, next) {
   const token = req.params.token;
 
-  UserModel.findOneAndUpdate({'token': token}, {$set:{is_confirm: true}}, {new: true}, function(err, doc){
+  UserModel.findOneAndUpdate({'token': token},  {$set:{is_confirm: true}}, {new: true}, function(err, doc){
     if(err){
       console.log("Something wrong when updating data!");
     }
