@@ -8,7 +8,7 @@
         <router-link to="/login">Sign in</router-link>
       </li>
       <li>
-        <router-link to="/register">Sign up</router-link>
+        <router-link to="/signup">Sign up</router-link>
       </li>
     </ul>
     <router-view></router-view>
@@ -32,7 +32,10 @@ export default {
   },
 	components: {
 
-	}
+	},
+  mounted() {
+
+  }
 }
 </script>
 

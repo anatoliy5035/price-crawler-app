@@ -21,12 +21,12 @@ const dict = {
 };
 Validator.updateDictionary(dict);
 
-const state = {
+const rootState = {
   serverErrorText: ''
 };
 
 export default new Vuex.Store({
-  state,
+  rootState,
   actions,
   getters,
   mutations,

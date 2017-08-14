@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h4>Registration</h4>
-    <form @submit.prevent="verifyEmail()">
+    <form @submit.prevent="signUp()">
       <div class="input-group">
         <input type="email" class="form-control" v-model="emailData" placeholder="Type your email">
         <input type="password" class="form-control" v-model="password" placeholder="Type your password">
@@ -25,8 +25,8 @@ import { mapGetters } from 'vuex';
     },
 
     methods: {
-      verifyEmail() {
-        this.$store.dispatch('verifyEmail', this);
+      signUp() {
+        this.$store.dispatch('signUp', this);
       }
     },
 

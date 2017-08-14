@@ -51,14 +51,12 @@ export default {
             this.$store.dispatch('getDomainName', this);
         }
     },
-
     computed: {
       ...mapGetters([
         'getServerErrorText',
         'getPreload'
       ])
     },
-
     created() {
         Validator.extend('theSameValue', {
             getMessage: field => {

@@ -96,6 +96,7 @@ devMiddleware.waitUntilValid(() => {
 
 var server = app.listen(port);
 mongoose.connect('localhost:27017/priceCrawlerApp');
+mongoose.set('debug', true);
 
 module.exports = {
   ready: readyPromise,

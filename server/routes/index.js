@@ -5,61 +5,87 @@ const getDomainObject = require('../helpers/getDomainObjectFromJson');
 const crawlUrl = require('../commonCrawler').crawlUrl;
 const mongoose = require('mongoose');
 const UserModel = require('../models/user');
-const jwt = require('jwt-simple');
+const bcrypt = require('bcrypt');
+const jwtSimple = require('jwt-simple');
 const mailer = require('../services/mailer');
-const tokenConfig = {auth: {
-  secretOrKey: 'secretOrKey'
-}};
+const tokenConfig = {
+  auth: {
+    secretOrKey: 'secretOrKey'
+  }
+};
 
 function sendError(response) {
-    response.status(500).send('Website not found in your list');
+  response.status(500).send('Website not found in your list');
 }
 
 router.post('/getPriceFromUrl', function (req, res) {
   let cartUrl = req.body.url;
   let domainUrl = getDomainFromUrl(req.body.url);
   let domainData = getDomainObject(domainUrl).length ? getDomainObject(domainUrl)[0] : false;
-      domainData !== false ? crawlUrl(domainData, cartUrl, domainUrl, res): sendError(res);
+  domainData !== false ? crawlUrl(domainData, cartUrl, domainUrl, res) : sendError(res);
 });
 
-router.post('/verifyEmail', function (req, res) {
-  let token = jwt.encode(req.body.email, tokenConfig.auth.secretOrKey);
+router.post('/signup', function (req, res, next) {
+  let emailTokenWithDots = jwtSimple.encode(req.body.email, tokenConfig.auth.secretOrKey);
+  let emailToken = emailTokenWithDots.split('.').join("");
   UserModel.findOne({'email': req.body.email})
     .then(user => {
       if (user) {
-          return res.status(500).send('User with such email already exsist');
-        } else {
-        let newUser = new UserModel({
+        console.error('user is exist in DB');
+        return res.status(409).send('User with such email already exsist');
+      } else {
+        let password = req.body.password;
+        let user = new UserModel({
           email: req.body.email,
-          token: token,
+          confirmEmailToken: emailToken,
           is_confirm: false
         });
-
-        newUser.save(function (err) {
+        bcrypt.hash(password, 10, function (err, hash) {
           if (err) {
-            console.log(err);
+            res.sendStatus(500)
           } else {
-            let confirmLink = req.protocol + "://" + req.get('host') + "/confirm/" + newUser.token;
-            mailer(req, res, confirmLink);
+            user.password = hash;
+            user.save(function (err) {
+              if (err) {
+                res.sendStatus(500)
+              } else {
+                let confirmLink = req.protocol + "://" + req.get('host') + "/confirm/" + emailToken;
+                mailer(req, res, confirmLink);
+              }
+            })
           }
         });
-        }
-      })
+      }
+    })
     .catch(err => {
       res.status(500);
       return res.json(err);
-  });
+    });
 });
 
-router.get("/confirm/:token", function (req, res, next) {
-  const token = req.params.token;
+router.post('/signin', function (req, res, next) {
+  console.log(req.body);
+  res.send(200);
+});
 
-  UserModel.findOneAndUpdate({'token': token},  {$set:{is_confirm: true}}, {new: true}, function(err, doc){
-    if(err){
+router.post("/confirmEmail", function (req, res, next) {
+  const confirmToken = req.body.confirmId;
+  const mainToken = UserModel.generateJwt();
+
+  UserModel.findOne({confirmEmailToken: confirmToken}, function (err, doc) {
+    if (err) {
+      console.log(doc);
       console.log("Something wrong when updating data!");
+    } else {
+      doc.is_confirm = true;
+      doc.mainToken = mainToken;
+      doc.save();
+      console.log('Email confirmed');
+      res.json({
+        "confirmed": true,
+        "token": mainToken
+      });
     }
-    res.status(200);
-    return res.json('Email confirmed');
   });
 });
 

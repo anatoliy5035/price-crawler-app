@@ -1,21 +1,49 @@
 // initial state
 const state = {
   responseData: {},
-  authorized: true
+  isLogged: !!localStorage.getItem('token')
 };
 
 // getters
 const getters = {
   // getServerText: state => state.responseData,
   // getServerErrorText: state => state.serverErrorText,
-  getAuthorized: state => state.authorized
+  getAuthorized: state => state.isLogged
 };
 
 // actions
 const actions = {
-  verifyEmail(context, component) {
-    const url = '/verifyEmail';
-    component.$http.post(url, {email: component.emailData})
+  signUp(context, component) {
+    const url = '/signup';
+    component.$http.post(url,
+      {
+        email: component.emailData,
+        password: component.password
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(errorResponse => {
+        context.commit('pushServerText', errorResponse);
+      });
+  },
+  signIn(context, component) {
+    const url = '/signin';
+    component.$http.post(url,
+      {
+        email: component.emailData,
+        password: component.password
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
       .then(res => {
         console.log(res);
       })
@@ -27,7 +55,12 @@ const actions = {
 
 // mutations
 const mutations = {
-
+  LOGIN_USER (state) {
+    state.isLogged = true
+  },
+  LOGOUT_USER (state) {
+    state.isLogged = false
+  }
 };
 
 export default {

@@ -22,9 +22,6 @@
         msg: 'Welcome to Your Vue.js App',
       }
     },
-    methods: {
-
-    },
     components: {
       CrawlerInput,
       CartInfo,
