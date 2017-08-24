@@ -1,31 +1,19 @@
 import Vue from 'vue';
 import vueResource from 'vue-resource';
-import App from './App.vue';
-import Register from './Register.vue';
-import Home from './Home.vue';
-import Login from './Login.vue';
-import Conmirmed from './Conmirmed.vue';
 import VueRouter from 'vue-router';
+import App from './App.vue'
 import VeeValidate from 'vee-validate';
 import store from './store/index';
-
+import { router } from './router';
+Vue.use(VueRouter);
 Vue.use(vueResource);
 Vue.use(VeeValidate);
-Vue.use(VueRouter);
 
-const router = new VueRouter({
-  mode: 'history',
-  base: __dirname,
-  routes: [
-    { path: '/home', component: Home },
-    { path: '/signup', component: Register },
-    { path: '/confirm/:id', component: Conmirmed},
-    { path: '/login', component: Login },
-    { path: '*', redirect: '/home' }
-  ]
+Vue.http.interceptors.push((request, next) => {
+  request.headers.set('Authorization', 'Bearer '+ localStorage.getItem('token'));
+  request.headers.set('Accept', 'application/json');
+  next()
 });
-
-console.log(router)
 
 new Vue({
 	el: '#app',

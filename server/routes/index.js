@@ -8,11 +8,8 @@ const UserModel = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwtSimple = require('jwt-simple');
 const mailer = require('../services/mailer');
-const tokenConfig = {
-  auth: {
-    secretOrKey: 'secretOrKey'
-  }
-};
+const config = require('../config');
+const checkUser = require('../middleware/checkUser');
 
 function sendError(response) {
   response.status(500).send('Website not found in your list');
@@ -25,8 +22,8 @@ router.post('/getPriceFromUrl', function (req, res) {
   domainData !== false ? crawlUrl(domainData, cartUrl, domainUrl, res) : sendError(res);
 });
 
-router.post('/signup', function (req, res, next) {
-  let emailTokenWithDots = jwtSimple.encode(req.body.email, tokenConfig.auth.secretOrKey);
+router.post('/signUp', function (req, res, next) {
+  let emailTokenWithDots = jwtSimple.encode(req.body.email, config.get('auth').secretOrKey);
   let emailToken = emailTokenWithDots.split('.').join("");
   UserModel.findOne({'email': req.body.email})
     .then(user => {
@@ -63,30 +60,58 @@ router.post('/signup', function (req, res, next) {
     });
 });
 
-router.post('/signin', function (req, res, next) {
-  console.log(req.body);
+router.post('/signIn', function (req, res, next) {
+  let user = req.body;
+  UserModel.findOne({
+    email: user.email,
+    is_confirm: true
+  }, function (err, userDb) {
+    if (userDb) {
+      userDb.checkPassword(user.password, function (err, isMatch) {
+        if (isMatch) {
+          const mainToken = UserModel.generateJwt(user.email, res);
+        } else {
+          let errText = 'Passwords not match';
+          console.error(errText);
+          res.status(401).send(errText);
+        }
+      });
+    } else {
+      let errText = 'User not found';
+      console.error(errText);
+      res.status(401).send(errText);
+    }
+  })
+    .catch(err => console.error('User not found'));
+});
+
+router.post('/logOut', function (req, res, next) {
   res.send(200);
 });
 
-router.post("/confirmEmail", function (req, res, next) {
-  const confirmToken = req.body.confirmId;
+router.post('/getToken', function (req, res, next) {
   const mainToken = UserModel.generateJwt();
+  res.json({token: mainToken});
+});
 
-  UserModel.findOne({confirmEmailToken: confirmToken}, function (err, doc) {
+router.post('/confirmEmail', function (req, res, next) {
+  UserModel.findOne({confirmEmailToken: req.body.confirmId}, function (err, doc) {
     if (err) {
       console.log(doc);
       console.log("Something wrong when updating data!");
     } else {
       doc.is_confirm = true;
-      doc.mainToken = mainToken;
       doc.save();
       console.log('Email confirmed');
       res.json({
-        "confirmed": true,
-        "token": mainToken
+        "confirmed": true
       });
     }
   });
+});
+
+router.post('/userIdentify', checkUser, function (req, res, next) {
+  // next();
 });
 
 module.exports = router;

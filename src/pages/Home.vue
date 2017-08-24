@@ -1,4 +1,4 @@
-<template>
+<template v-if="this.getAuthorized">
   <div id="app">
     <crawler-input></crawler-input>
     <div class="container">
@@ -11,9 +11,9 @@
 </template>
 
 <script>
-  import CrawlerInput from './components/CrawlerInput.vue';
-  import Results from './components/Results.vue';
-  import CartInfo from './components/CartInfo.vue';
+  import CrawlerInput from '../components/CrawlerInput.vue';
+  import Results from '../components/Results.vue';
+  import CartInfo from '../components/CartInfo.vue';
 
   export default {
     name: 'app',
@@ -30,4 +30,4 @@
   }
 </script>
 
-<style src="./assets/css/style.css"></style>
+<style src="../assets/css/style.css"></style>

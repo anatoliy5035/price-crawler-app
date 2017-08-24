@@ -24,7 +24,7 @@ module.exports = function (req, res, confirmLink) {
 
   mailgun.messages().send(data, function (err, body) {
     if (err) {
-      console.log("got an error: ", err);
+      console.log("Error from Mailgun", err);
     } else {
       console.log(body);
     }

@@ -8,6 +8,9 @@
       "domain": "sandbox900bc0b177d049808c81564068260b09.mailgun.org",
       "from_who": "service@haha.com",
       "subject": "PriceCrawler werification"
-    }
+    },
+  "auth": {
+    "secretOrKey": "SUPERSECRET"
+  }
 
 }

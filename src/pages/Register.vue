@@ -6,15 +6,17 @@
         <input type="email" class="form-control" v-model="emailData" placeholder="Type your email">
         <input type="password" class="form-control" v-model="password" placeholder="Type your password">
       </div>
+      <div v-show="this.getServerErrorText" class="alert alert-danger">
+        {{this.getServerErrorText}}
+      </div>
       <button class="btn btn-default" type="submit">Submit</button>
     </form>
-    <div v-show="this.getServerErrorText" class="alert alert-danger">
-      {{this.getServerErrorText}}
-    </div>
+    <sweet-modal icon="success" ref="successModal">Email with confirm link was sent to your email</sweet-modal>
   </div>
 </template>
 
 <script>
+import { SweetModal } from 'sweet-modal-vue';
 import { mapGetters } from 'vuex';
   export default {
     data () {
@@ -22,6 +24,10 @@ import { mapGetters } from 'vuex';
         emailData: '',
         password: ''
       }
+    },
+
+    components: {
+      SweetModal
     },
 
     methods: {
