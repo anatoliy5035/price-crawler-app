@@ -5,6 +5,7 @@ import Home from './pages/Home.vue';
 import Login from './pages/Login.vue';
 import Confirmed from './pages/Conmirmed.vue';
 import Cabinet from './pages/Cabinet.vue';
+import passwordReplace  from './pages/passwordReplace.vue';
 import store from './store/index';
 
 function guardRoute (route, redirect, next) {
@@ -23,7 +24,8 @@ export const router = new VueRouter({
     { path: '/confirm/:id', component: Confirmed},
     { path: '/login', component: Login },
     { path: '/home', component: Home, meta: { needGuard: true }},
-    { path: '/cabinet', component: Cabinet}
+    { path: '/cabinet', component: Cabinet},
+    { path: '/passwordReplace', component: passwordReplace}
   ]
 });
 

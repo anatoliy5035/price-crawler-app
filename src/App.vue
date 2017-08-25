@@ -11,6 +11,9 @@
         <router-link to="/login" v-if="!this.getAuthorized">Sign in</router-link>
       </li>
       <li>
+        <router-link to="/passwordReplace" v-if="this.getAuthorized">Replace password</router-link>
+      </li>
+      <li>
         <a href="#" @click="this.logOut" v-if="this.getAuthorized">Log Out</a>
       </li>
       <li>
@@ -44,11 +47,7 @@ export default {
       'getAuthorized',
       'getServerErrorText'
     ])
-  },
-
-	components: {
-
-	}
+  }
 }
 </script>
 

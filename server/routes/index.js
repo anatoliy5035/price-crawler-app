@@ -15,14 +15,14 @@ function sendError(response) {
   response.status(500).send('Website not found in your list');
 }
 
-router.post('/getPriceFromUrl', function (req, res) {
+router.post('/getPriceFromUrl', (req, res) => {
   let cartUrl = req.body.url;
   let domainUrl = getDomainFromUrl(req.body.url);
   let domainData = getDomainObject(domainUrl).length ? getDomainObject(domainUrl)[0] : false;
   domainData !== false ? crawlUrl(domainData, cartUrl, domainUrl, res) : sendError(res);
-});
+} );
 
-router.post('/signUp', function (req, res, next) {
+router.post('/signUp', (req, res, next) => {
   let emailTokenWithDots = jwtSimple.encode(req.body.email, config.get('auth').secretOrKey);
   let emailToken = emailTokenWithDots.split('.').join("");
   UserModel.findOne({'email': req.body.email})
@@ -60,7 +60,7 @@ router.post('/signUp', function (req, res, next) {
     });
 });
 
-router.post('/signIn', function (req, res, next) {
+router.post('/signIn', (req, res, next) => {
   let user = req.body;
   UserModel.findOne({
     email: user.email,
@@ -85,20 +85,19 @@ router.post('/signIn', function (req, res, next) {
     .catch(err => console.error('User not found'));
 });
 
-router.post('/logOut', function (req, res, next) {
+router.post('/logOut', (req, res, next) => {
   res.send(200);
 });
 
-router.post('/getToken', function (req, res, next) {
+router.post('/getToken', (req, res, next) => {
   const mainToken = UserModel.generateJwt();
   res.json({token: mainToken});
 });
 
-router.post('/confirmEmail', function (req, res, next) {
+router.post('/confirmEmail', (req, res, next) => {
   UserModel.findOne({confirmEmailToken: req.body.confirmId}, function (err, doc) {
     if (err) {
-      console.log(doc);
-      console.log("Something wrong when updating data!");
+      console.error("Something wrong when updating data!");
     } else {
       doc.is_confirm = true;
       doc.save();
@@ -110,8 +109,38 @@ router.post('/confirmEmail', function (req, res, next) {
   });
 });
 
-router.post('/userIdentify', checkUser, function (req, res, next) {
-  // next();
+router.post('/userIdentify', checkUser, (req, res, next) => {
+  UserModel.findOne({email: req.decoded.email})
+    .then((user) => {
+      return res.json({'userEmail': user.email});
+    })
+    .catch(err => {
+      res.status(500).send('user with this email not found in DB');
+    });
+});
+
+router.post('/replacePassword', checkUser, (req, res, next) => {
+  let email = req.decoded.email;
+  UserModel.findOne({
+    email: email,
+  }, function (err, doc) {
+    if (doc) {
+      doc.replacePassword(req, doc, function (err, isReplaced) {
+        if (isReplaced) {
+          let textInfo = 'Password replaced';
+          console.log(textInfo);
+          res.send(textInfo).status(200);
+        } else {
+          console.error(err);
+          res.status(500).send(err);
+        }
+      });
+    } else {
+      let errText = 'User not found';
+      console.error(errText);
+      res.status(401).send(errText);
+    }
+  });
 });
 
 module.exports = router;

@@ -46,7 +46,8 @@ import { mapGetters } from 'vuex';
 
 <style scoped="">
   .input-group {
-    width: 100%;
+    width: 50%;
+    margin: 0 auto;
   }
 
   .form-control {

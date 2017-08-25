@@ -77,6 +77,23 @@ const actions = {
     context.commit('LOGOUT_USER');
     router.push('/login');
     // component.$http.post(url);
+  },
+
+  replacePassword(context, component) {
+    component.$http.post('/replacePassword', {
+      "oldPassword": component.oldPassword,
+      "newPassword": component.newPassword
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+ localStorage.getItem('token')
+      }
+    }).then(response => {
+        component.$refs.successPasswordReplaced.open();
+    })
+    .catch(errorResponse => {
+        context.commit('ADD_SERVER_TEXT', errorResponse);
+    });
   }
 };
 

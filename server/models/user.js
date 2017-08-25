@@ -22,6 +22,23 @@ User.methods.checkPassword = function(password, cb) {
   });
 };
 
+User.methods.replacePassword = function(req, user, cb) {
+  bcrypt.compare(req.body.oldPassword, this.password, function (err, isMatch) {
+    if (isMatch) {
+      bcrypt.hash(req.body.newPassword, 10, function (err, hash) {
+        user.password = hash;
+        user.save(function (err) {
+          if (err) return cb(err, false);
+          cb(null, true);
+        });
+      });
+    } else {
+      err = 'Old password is incorrect';
+      cb(err, false);
+    }
+  })
+};
+
 User.statics.generateJwt = function(email, response) {
   const expiry = new Date();
   this.find({email: email})

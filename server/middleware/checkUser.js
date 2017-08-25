@@ -13,14 +13,6 @@ module.exports = (req, res, next) => {
       // if (decoded.exp <= Date.now()) {
       //   res.end('Access token has expired', 400);
       // }
-      const userEmail = decoded.email;
-      User.findOne({email: userEmail})
-        .then((user) => {
-          return res.json({'userEmail': user.email});
-        })
-        .catch(err => {
-          res.status(500).send('user with this email not found in DB');
-        });
       next();
     });
   } else {
